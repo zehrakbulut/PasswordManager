@@ -12,7 +12,6 @@ namespace PasswordManager.Domain.Models.Tables
 		public string UserName { get; set; }
 		public string Email { get; set; }
 		public string HashedMasterPassword { get; set; } //hashlenmis ana sifre
-
 		public List<Password> Password { get; set; }
 	}
 }

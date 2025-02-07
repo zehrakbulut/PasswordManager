@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Application.Commands;
-using PasswordManager.Application.Queries;
+using Microsoft.Extensions.FileProviders;
+using PasswordManager.Application.Features.UserFeature.Commands;
+using PasswordManager.Application.Features.UserFeature.Queries;
 
 namespace PasswordManager.Api.Controllers
 {
@@ -18,18 +19,65 @@ namespace PasswordManager.Api.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateUser(CreateUserCommand command)
+		public async Task<IActionResult> CreateUserAsync(CreateUserCommand command)
 		{
 			var userId = await _mediator.Send(command);
-			return Ok(userId);
+			return Ok(new { Id = userId });
 		}
 
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetUserById(int id)
+		public async Task<IActionResult> GetUserByIdAsync(int id)
 		{
 			var query = new GetUserByIdQuery { Id = id };
 			var user = await _mediator.Send(query);
 			return Ok(user);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserCommand command)
+		{
+			if( id != command.Id)
+			{
+				return BadRequest();
+			}
+
+			var result = await _mediator.Send(command);
+			if (!result)
+			{
+				return NotFound();
+			}
+
+			return Ok(result);
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteUserAsync(int id)
+		{
+			var query = new GetUserByIdQuery { Id = id };
+			var user = await _mediator.Send(query);
+
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			var command = new DeleteUserCommand { Id = id };
+			var result = await _mediator.Send(command);
+
+			if(result)
+			{
+				return NoContent();
+			}
+
+			return BadRequest();
+		}
+
+		[HttpGet("UserList")]
+		public async Task<IActionResult> GetAllAsync()
+		{
+			var query = new GetAllUserQuery();
+			var result = await _mediator.Send(query);
+			return Ok(result);
 		}
 	}
 }

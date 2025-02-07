@@ -1,7 +1,86 @@
 [
   {
+    "ContainingType": "PasswordManager.Api.Controllers.PasswordsController",
+    "Method": "CreatePasswordAsync",
+    "RelativePath": "api/Passwords",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "PasswordManager.Application.Features.PasswordFeature.Commands.CreatePasswordCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.PasswordsController",
+    "Method": "GetPasswordByIdAsync",
+    "RelativePath": "api/Passwords/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.PasswordsController",
+    "Method": "UpdatePasswordAsync",
+    "RelativePath": "api/Passwords/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "PasswordManager.Application.Features.PasswordFeature.Commands.UpdatePasswordCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.PasswordsController",
+    "Method": "DeletePasswordAsync",
+    "RelativePath": "api/Passwords/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.PasswordsController",
+    "Method": "GetAllAsync",
+    "RelativePath": "api/Passwords/PasswordList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PasswordManager.Api.Controllers.UsersController",
-    "Method": "CreateUser",
+    "Method": "CreateUserAsync",
     "RelativePath": "api/Users",
     "HttpMethod": "POST",
     "IsController": true,
@@ -9,7 +88,7 @@
     "Parameters": [
       {
         "Name": "command",
-        "Type": "PasswordManager.Application.Commands.CreateUserCommand",
+        "Type": "PasswordManager.Application.Features.UserFeature.Commands.CreateUserCommand",
         "IsRequired": true
       }
     ],
@@ -17,7 +96,7 @@
   },
   {
     "ContainingType": "PasswordManager.Api.Controllers.UsersController",
-    "Method": "GetUserById",
+    "Method": "GetUserByIdAsync",
     "RelativePath": "api/Users/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -29,6 +108,53 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.UsersController",
+    "Method": "UpdateUserAsync",
+    "RelativePath": "api/Users/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "PasswordManager.Application.Features.UserFeature.Commands.UpdateUserCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.UsersController",
+    "Method": "DeleteUserAsync",
+    "RelativePath": "api/Users/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PasswordManager.Api.Controllers.UsersController",
+    "Method": "GetAllAsync",
+    "RelativePath": "api/Users/UserList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]
