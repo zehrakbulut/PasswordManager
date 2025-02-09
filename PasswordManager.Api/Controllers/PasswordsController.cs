@@ -1,6 +1,9 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Application.Dtos.Requests.Password;
+using PasswordManager.Application.Dtos.Responses.Password;
 using PasswordManager.Application.Features.PasswordFeature.Commands;
 using PasswordManager.Application.Features.PasswordFeature.Queries;
 
@@ -11,17 +14,20 @@ namespace PasswordManager.Api.Controllers
 	public class PasswordsController : ControllerBase
 	{
 		private readonly IMediator _mediator;
+		private readonly IMapper _mapper;
 
-		public PasswordsController(IMediator mediator)
+		public PasswordsController(IMediator mediator, IMapper mapper)
 		{
 			_mediator = mediator;
+			_mapper = mapper;
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreatePasswordAsync(CreatePasswordCommand command)
+		public async Task<IActionResult> CreatePasswordAsync(CreatePasswordRequestDto requestDto)
 		{
+			var command = _mapper.Map<CreatePasswordCommand>(requestDto);
 			var passwordId = await _mediator.Send(command);
-			return Ok(new { Id = passwordId });
+			return Ok(new CreatePasswordResponseDto { Id = passwordId, Name= requestDto.Name, Username = requestDto.Username });
 		}
 
 		[HttpGet("{id}")]
@@ -29,53 +35,40 @@ namespace PasswordManager.Api.Controllers
 		{
 			var query = new GetPasswordByIdQuery { Id = id };
 			var password = await _mediator.Send(query);
-			return Ok(password);
+			if(password == null) 
+				return NotFound();
+			var responseDto = _mapper.Map<GetPasswordByIdResponseDto>(password);
+			return Ok(responseDto);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdatePasswordAsync(int id, UpdatePasswordCommand command)
+		public async Task<IActionResult> UpdatePasswordAsync(int id, UpdatePasswordRequestDto requestDto)
 		{
-			if(id != command.Id)
+			if(id != requestDto.Id)
 			{
 				return BadRequest();
 			}
 
+			var command = _mapper.Map<UpdatePasswordCommand>(requestDto);
 			var result = await _mediator.Send(command);
-			if (!result)
-			{
-				return NotFound();
-			}
-
-			return Ok(result);
+			return result ? Ok(new UpdatePasswordResponseDto { Success = true }) : NotFound();
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeletePasswordAsync(int id)
 		{
-			var query = new GetPasswordByIdQuery { Id = id };
-			var password = await _mediator.Send(query);
-
-			if (User == null)
-			{
-				return NotFound();
-			}
-
-			var command = new DeletePasswordCommand() { Id = id };
+			var command = new DeletePasswordCommand { Id = id };
 			var result = await _mediator.Send(command);
-
-			if (result)
-			{
-				return NoContent();
-			}
-			return BadRequest();
+			return result ? NoContent() : NotFound();
 		}
 
 		[HttpGet("PasswordList")]
 		public async Task<IActionResult> GetAllAsync()
 		{
 			var query = new GetAllPasswordQuery();
-			var result = await _mediator.Send(query);
-			return Ok(result);
+			var passwords = await _mediator.Send(query);
+			var responseDto = _mapper.Map<GetAllPasswordResponseDto>(passwords);
+			return Ok(responseDto);
 		}
 	}
 }	

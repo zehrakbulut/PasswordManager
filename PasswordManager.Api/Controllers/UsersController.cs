@@ -1,7 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using PasswordManager.Application.Dtos.Requests.User;
+using PasswordManager.Application.Dtos.Responses.User;
 using PasswordManager.Application.Features.UserFeature.Commands;
 using PasswordManager.Application.Features.UserFeature.Queries;
 
@@ -12,17 +15,20 @@ namespace PasswordManager.Api.Controllers
 	public class UsersController : ControllerBase
 	{
 		private readonly IMediator _mediator;
+		private readonly IMapper _mapper;
 
-		public UsersController(IMediator mediator)
+		public UsersController(IMediator mediator, IMapper mapper)
 		{
 			_mediator = mediator;
+			_mapper = mapper;
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateUserAsync(CreateUserCommand command)
+		public async Task<IActionResult> CreateUserAsync(CreateUserRequestDto requestDto)
 		{
+			var command = _mapper.Map<CreateUserCommand>(requestDto);
 			var userId = await _mediator.Send(command);
-			return Ok(new { Id = userId });
+			return Ok(new CreateUserResponseDto { Id = userId, UserName= requestDto.UserName, Email=requestDto.Email});
 		}
 
 		[HttpGet("{id}")]
@@ -30,54 +36,40 @@ namespace PasswordManager.Api.Controllers
 		{
 			var query = new GetUserByIdQuery { Id = id };
 			var user = await _mediator.Send(query);
-			return Ok(user);
+			if(user == null) 
+				return NotFound();
+			var responseDto = _mapper.Map<GetUserByIdResponseDto>(user);
+			return Ok(responseDto);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserCommand command)
+		public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserRequestDto requestDto)
 		{
-			if( id != command.Id)
+			if( id != requestDto.Id)
 			{
 				return BadRequest();
 			}
 
+			var command = _mapper.Map<UpdateUserCommand>(requestDto);
 			var result = await _mediator.Send(command);
-			if (!result)
-			{
-				return NotFound();
-			}
-
-			return Ok(result);
+			return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();    //BU NEEEĞĞĞĞJSJJSJS
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteUserAsync(int id)
 		{
-			var query = new GetUserByIdQuery { Id = id };
-			var user = await _mediator.Send(query);
-
-			if(user == null)
-			{
-				return NotFound();
-			}
-
 			var command = new DeleteUserCommand { Id = id };
 			var result = await _mediator.Send(command);
-
-			if(result)
-			{
-				return NoContent();
-			}
-
-			return BadRequest();
+			return result ? NoContent() : NotFound();    //	BU NEEĞĞĞĞĞĞJSJSJS
 		}
 
 		[HttpGet("UserList")]
 		public async Task<IActionResult> GetAllAsync()
 		{
 			var query = new GetAllUserQuery();
-			var result = await _mediator.Send(query);
-			return Ok(result);
+			var users = await _mediator.Send(query);
+			var responseDto = _mapper.Map<GetAllUsersResponseDto>(users);
+			return Ok(responseDto);
 		}
 	}
 }

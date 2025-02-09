@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PasswordManager.Application;
+using PasswordManager.Application.Features.PasswordFeature.Commands;
 using PasswordManager.Application.Features.UserFeature.Commands;
+using PasswordManager.Application.Mapping;
 using PasswordManager.Domain.Interfaces;
 using PasswordManager.Infrastructure;
 using PasswordManager.Infrastructure.Repositories;
@@ -9,7 +11,10 @@ using PasswordManager.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly)); //MediatR kayýt ettim
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreatePasswordCommand).Assembly));
 
+builder.Services.AddAutoMapper(typeof(UserProfile)); // AutoMapper servisi
+builder.Services.AddAutoMapper(typeof(PasswordProfile)); 
 
 builder.Services.AddApplication().AddInfrastructure();
 
