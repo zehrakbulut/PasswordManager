@@ -25,9 +25,17 @@ namespace PasswordManager.Api.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreatePasswordAsync(CreatePasswordRequestDto requestDto)
 		{
+			if (requestDto.UserId <= 0)
+				return BadRequest("Id geçerli olmalıdır.");
+
 			var command = _mapper.Map<CreatePasswordCommand>(requestDto);
 			var passwordId = await _mediator.Send(command);
-			return Ok(new CreatePasswordResponseDto { Id = passwordId, Name= requestDto.Name, Username = requestDto.Username });
+			return Ok(new CreatePasswordResponseDto
+			{
+				Id = passwordId,
+				Name = requestDto.Name,
+				Username = requestDto.Username
+			});
 		}
 
 		[HttpGet("{id}")]
@@ -44,14 +52,16 @@ namespace PasswordManager.Api.Controllers
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdatePasswordAsync(int id, UpdatePasswordRequestDto requestDto)
 		{
-			if(id != requestDto.Id)
-			{
-				return BadRequest();
-			}
+			if (requestDto.Id <= 0)
+				return BadRequest("Id geçerli olmalıdır.");
 
 			var command = _mapper.Map<UpdatePasswordCommand>(requestDto);
 			var result = await _mediator.Send(command);
-			return result ? Ok(new UpdatePasswordResponseDto { Success = true }) : NotFound();
+
+			if (!result)
+				return BadRequest("Güncelleme başarısız.");
+
+			return Ok(new { Message = "Şifre başarıyla güncellendi." });
 		}
 
 		[HttpDelete("{id}")]

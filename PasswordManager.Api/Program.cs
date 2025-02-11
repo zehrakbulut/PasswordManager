@@ -14,7 +14,9 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Creat
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreatePasswordCommand).Assembly));
 
 builder.Services.AddAutoMapper(typeof(UserProfile)); // AutoMapper servisi
-builder.Services.AddAutoMapper(typeof(PasswordProfile)); 
+builder.Services.AddAutoMapper(typeof(PasswordProfile));
+
+
 
 builder.Services.AddApplication().AddInfrastructure();
 

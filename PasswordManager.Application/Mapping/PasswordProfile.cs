@@ -20,12 +20,23 @@ namespace PasswordManager.Application.Mapping
 		{
 			CreateMap<Password, GetPasswordByIdResponseDto>();
 
-			CreateMap<Password, GetPasswordByIdResponseDto>(); // Liste içindeki her User için tekil map
+			CreateMap<UpdatePasswordRequestDto, UpdatePasswordCommand>()
+				.ForMember(dest => dest.HashedPassword, opt => opt.MapFrom(src => EncryptAES(src.Password)));
 
-			CreateMap<UpdatePasswordRequestDto, UpdatePasswordCommand>();
+			CreateMap<CreatePasswordRequestDto, CreatePasswordCommand>()
+			.ForMember(dest => dest.HashedPassword, opt => opt.MapFrom(src => EncryptAES(src.Password))); 
 
 			CreateMap<IEnumerable<Password>, GetAllPasswordResponseDto>()
 	.ForMember(dest => dest.Passwords, opt => opt.MapFrom(src => src));
 		}
+
+		private static string EncryptAES(string plainText)
+		{
+			if (string.IsNullOrEmpty(plainText))
+				return string.Empty;
+
+			return AESHelper.Encrypt(plainText);
+		}
+
 	}
 }
