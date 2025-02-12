@@ -21,13 +21,13 @@ namespace PasswordManager.Application.Features.PasswordFeature.CommandsHandlers
 
 		public async Task<bool> Handle(DeletePasswordCommand request, CancellationToken cancellationToken)
 		{
-			var user = await _passwordRepository.GetByIdAsync(request.Id);
-			if (user == null)
+			var password = await _passwordRepository.GetByIdAsync(request.Id);
+			if (password == null)
 			{
 				return false;
 			}
 
-			await _passwordRepository.DeleteAsync(user);
+			await _passwordRepository.DeleteAsync(password);
 			return true;
 		}
 	}

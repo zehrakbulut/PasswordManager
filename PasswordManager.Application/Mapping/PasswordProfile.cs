@@ -5,6 +5,7 @@ using PasswordManager.Application.Dtos.Responses.Password;
 using PasswordManager.Application.Dtos.Responses.User;
 using PasswordManager.Application.Features.PasswordFeature.Commands;
 using PasswordManager.Application.Features.UserFeature.Commands;
+using PasswordManager.Application.Helpers;
 using PasswordManager.Domain.Models.Tables;
 using System;
 using System.Collections.Generic;
