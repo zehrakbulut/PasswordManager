@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using PasswordManager.Application.Features.UserFeature.Commands;
+using PasswordManager.Application.Helpers;
 using PasswordManager.Domain.Interfaces;
 using PasswordManager.Domain.Models.Tables;
 using System;
@@ -25,7 +27,7 @@ namespace PasswordManager.Application.Features.UserFeature.CommandHandlers
 			{
 				UserName = request.UserName,
 				Email = request.Email,
-				HashedMasterPassword = request.HashedMasterPassword
+				HashedMasterPassword = PasswordHasher.HashPassword(request.HashedMasterPassword)
 			};
 
 			await _userRepository.AddAsync(newUser);

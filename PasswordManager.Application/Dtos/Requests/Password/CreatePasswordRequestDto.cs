@@ -12,5 +12,6 @@ namespace PasswordManager.Application.Dtos.Requests.Password
 		public string Name { get; set; }   
 		public string Username { get; set; }
 		public string Password { get; set; } //girilen şifre backend tarafında aes ile hashlenicek
+		public string HashedPassword { get; set; } // Şifreli değeri burada tutacağız
 	}
 }

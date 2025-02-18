@@ -1,29 +1,57 @@
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Application;
-using PasswordManager.Application.Features.PasswordFeature.Commands;
-using PasswordManager.Application.Features.UserFeature.Commands;
+using PasswordManager.Application.Features.AuthFeature.QueryHandlers;
+using PasswordManager.Application.Features.PasswordFeature.Queries;
+using PasswordManager.Application.Features.PasswordFeature.QueriesHandlers;
+using PasswordManager.Application.Helpers;
+using PasswordManager.Application.Interfaces;
 using PasswordManager.Application.Mapping;
 using PasswordManager.Domain.Interfaces;
+using PasswordManager.Domain.Models.Tables;
 using PasswordManager.Infrastructure;
 using PasswordManager.Infrastructure.Repositories;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly)); //MediatR kay�t ettim
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreatePasswordCommand).Assembly));
+// JWT konfigürasyonu
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = true,
+			ValidateIssuerSigningKey = true,
+			ValidIssuer = jwtSettings["Issuer"],
+			ValidAudience = jwtSettings["Audience"],
+			IssuerSigningKey = new SymmetricSecurityKey(key)
+		};
+	});
+
+builder.Services.AddAuthorization();
+
+
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IRepositoryBase<User>, Repository<User>>();
+builder.Services.AddScoped<IRepositoryBase<Password>, Repository<Password>>();
+builder.Services.AddScoped<IRequestHandler<GetPasswordByIdQuery, Password>, GetPasswordByIdQueryHandler>();
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginUserQueryHandler).Assembly));
 
 builder.Services.AddAutoMapper(typeof(UserProfile)); // AutoMapper servisi
 builder.Services.AddAutoMapper(typeof(PasswordProfile));
 
-
-
 builder.Services.AddApplication().AddInfrastructure();
 
-builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(Repository<>));
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -32,7 +60,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
@@ -41,6 +68,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

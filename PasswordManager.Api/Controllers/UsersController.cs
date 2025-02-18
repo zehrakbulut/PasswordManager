@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 using PasswordManager.Application.Dtos.Requests.User;
 using PasswordManager.Application.Dtos.Responses.User;
 using PasswordManager.Application.Features.UserFeature.Commands;
@@ -52,7 +51,7 @@ namespace PasswordManager.Api.Controllers
 
 			var command = _mapper.Map<UpdateUserCommand>(requestDto);
 			var result = await _mediator.Send(command);
-			return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();    //BU NEEEĞĞĞĞJSJJSJS
+			return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();    
 		}
 
 		[HttpDelete("{id}")]
@@ -60,7 +59,7 @@ namespace PasswordManager.Api.Controllers
 		{
 			var command = new DeleteUserCommand { Id = id };
 			var result = await _mediator.Send(command);
-			return result ? NoContent() : NotFound();    //	BU NEEĞĞĞĞĞĞJSJSJS
+			return result ? NoContent() : NotFound();    
 		}
 
 		[HttpGet("UserList")]

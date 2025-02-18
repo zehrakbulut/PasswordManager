@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Application.Dtos.Requests.Password;
 using PasswordManager.Application.Dtos.Responses.Password;
@@ -43,7 +42,7 @@ namespace PasswordManager.Api.Controllers
 		{
 			var query = new GetPasswordByIdQuery { Id = id };
 			var password = await _mediator.Send(query);
-			if(password == null) 
+			if (password == null)
 				return NotFound();
 			var responseDto = _mapper.Map<GetPasswordByIdResponseDto>(password);
 			return Ok(responseDto);
@@ -81,4 +80,4 @@ namespace PasswordManager.Api.Controllers
 			return Ok(responseDto);
 		}
 	}
-}	
+}
