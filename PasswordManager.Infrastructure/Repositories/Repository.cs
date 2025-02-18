@@ -29,6 +29,10 @@ namespace PasswordManager.Infrastructure.Repositories
 		{
 			return await _context.Set<T>().ToListAsync();
 		}
+		public async Task<ICollection<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+		{
+			return await _context.Set<T>().Where(predicate).ToListAsync();
+		}
 
 		public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate)
 		{

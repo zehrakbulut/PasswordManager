@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Application.Dtos.Requests.Password;
 using PasswordManager.Application.Dtos.Responses.Password;
@@ -10,6 +11,7 @@ namespace PasswordManager.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class PasswordsController : ControllerBase
 	{
 		private readonly IMediator _mediator;

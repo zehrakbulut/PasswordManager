@@ -24,10 +24,11 @@ namespace PasswordManager.Application.Features.PasswordFeature.CommandsHandlers
 		public async Task<int> Handle(CreatePasswordCommand request, CancellationToken cancellationToken)
 		{
 			var user = await _userRepository.GetByIdAsync(request.UserId);
-			if(user == null)
+			if (user == null)
 			{
-				throw new InvalidOperationException();
+				throw new InvalidOperationException($"User with ID {request.UserId} not found.");
 			}
+
 
 			var newPassword = new Password
 			{
@@ -38,7 +39,9 @@ namespace PasswordManager.Application.Features.PasswordFeature.CommandsHandlers
 			};
 
 			await _passwordRepository.AddAsync(newPassword);
+			await _passwordRepository.SaveChangesAsync(); 
 			return newPassword.Id;
+
 		}
 	}
 }

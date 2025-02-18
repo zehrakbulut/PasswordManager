@@ -22,6 +22,7 @@ namespace PasswordManager.Api.Controllers
 			_mapper = mapper;
 		}
 
+		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> CreateUserAsync(CreateUserRequestDto requestDto)
 		{
@@ -30,6 +31,7 @@ namespace PasswordManager.Api.Controllers
 			return Ok(new CreateUserResponseDto { Id = userId, UserName= requestDto.UserName, Email=requestDto.Email});
 		}
 
+		[Authorize]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetUserByIdAsync(int id)
 		{
@@ -41,6 +43,7 @@ namespace PasswordManager.Api.Controllers
 			return Ok(responseDto);
 		}
 
+		[Authorize]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserRequestDto requestDto)
 		{
@@ -54,6 +57,7 @@ namespace PasswordManager.Api.Controllers
 			return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();    
 		}
 
+		[Authorize]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteUserAsync(int id)
 		{
