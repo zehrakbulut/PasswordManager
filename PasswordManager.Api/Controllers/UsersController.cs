@@ -56,7 +56,7 @@ namespace PasswordManager.Api.Controllers
 			var result = await _mediator.Send(command);
 			return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();    
 		}
-
+		
 		[Authorize]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteUserAsync(int id)
