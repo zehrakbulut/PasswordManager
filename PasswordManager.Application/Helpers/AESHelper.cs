@@ -5,7 +5,7 @@ namespace PasswordManager.Application.Helpers
 {
 	public static class AESHelper
 	{
-		private static readonly string KeyString = "SuperSecureKey1234567890!@#$%"; // Daha güvenli bir key
+		private static readonly string KeyString = "SuperSecureKey1234567890!@#$%"; 
 		private static readonly byte[] Key = Encoding.UTF8.GetBytes(KeyString.PadRight(32));
 
 		public static string Encrypt(string plainText)

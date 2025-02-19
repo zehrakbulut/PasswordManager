@@ -1,14 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
 using PasswordManager.Application.Features.UserFeature.Commands;
 using PasswordManager.Application.Helpers;
 using PasswordManager.Domain.Interfaces;
 using PasswordManager.Domain.Models.Tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PasswordManager.Application.Features.UserFeature.CommandHandlers
 {

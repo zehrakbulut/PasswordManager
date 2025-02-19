@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Application.Dtos.Requests.Auth;
 using PasswordManager.Application.Features.AuthFeature.Commands;
@@ -46,13 +45,5 @@ namespace PasswordManager.Api.Controllers
 
 			return Ok(new { Token = response.Token });
 		}
-
-		[Authorize]
-		[HttpGet("secure-data")]
-		public IActionResult SecureData()
-		{
-			return Ok(new { message = "Bu veriye sadece giriş yapmış kullanıcılar erişebilir." });
-		}
-
 	}
 }

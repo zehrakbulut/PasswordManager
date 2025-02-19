@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using PasswordManager.Application.Dtos.Requests.User;
 using PasswordManager.Application.Dtos.Responses.User;
 using PasswordManager.Application.Features.UserFeature.Commands;
