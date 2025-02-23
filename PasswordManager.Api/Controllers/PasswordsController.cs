@@ -26,17 +26,30 @@ namespace PasswordManager.Api.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreatePasswordAsync(CreatePasswordRequestDto requestDto)
 		{
-			if (requestDto.UserId <= 0)
-				return BadRequest("Id geçerli olmalıdır.");
-
-			var command = _mapper.Map<CreatePasswordCommand>(requestDto);
-			var passwordId = await _mediator.Send(command);
-			return Ok(new CreatePasswordResponseDto
+			if (!ModelState.IsValid)
 			{
-				Id = passwordId,
-				Name = requestDto.Name,
-				Username = requestDto.Username
-			});
+				return BadRequest(ModelState);
+			}
+
+			try
+			{
+				var command = _mapper.Map<CreatePasswordCommand>(requestDto);
+				var passwordId = await _mediator.Send(command);
+				return Ok(new CreatePasswordResponseDto
+				{
+					Id = passwordId,
+					Name = requestDto.Name,
+					Username = requestDto.Username
+				});
+			}
+			catch (InvalidOperationException ex)
+			{
+				return NotFound(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred: " + ex.Message); 
+			}
 		}
 
 		[HttpGet("{id}")]
@@ -53,16 +66,30 @@ namespace PasswordManager.Api.Controllers
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdatePasswordAsync(int id, UpdatePasswordRequestDto requestDto)
 		{
-			if (requestDto.Id <= 0)
-				return BadRequest("Id geçerli olmalıdır.");
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-			var command = _mapper.Map<UpdatePasswordCommand>(requestDto);
-			var result = await _mediator.Send(command);
+			if (id != requestDto.Id)
+			{
+				return BadRequest("Id must be valid.");
+			}
 
-			if (!result)
-				return BadRequest("Güncelleme başarısız.");
+			try
+			{
+				var command = _mapper.Map<UpdatePasswordCommand>(requestDto);
+				var result = await _mediator.Send(command);
 
-			return Ok(new { Message = "Şifre başarıyla güncellendi." });
+				if (!result)
+					return BadRequest("Update failed.");
+
+				return Ok(new { Message = "Password updated successfully." });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred: " + ex.Message); 
+			}
 		}
 
 		[HttpDelete("{id}")]

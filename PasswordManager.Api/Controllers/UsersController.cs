@@ -11,6 +11,7 @@ namespace PasswordManager.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class UsersController : ControllerBase
 	{
 		private readonly IMediator _mediator;
@@ -22,16 +23,30 @@ namespace PasswordManager.Api.Controllers
 			_mapper = mapper;
 		}
 
-		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> CreateUserAsync(CreateUserRequestDto requestDto)
 		{
-			var command = _mapper.Map<CreateUserCommand>(requestDto);
-			var userId = await _mediator.Send(command);
-			return Ok(new CreateUserResponseDto { Id = userId, UserName= requestDto.UserName, Email=requestDto.Email});
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			try
+			{
+				var command = _mapper.Map<CreateUserCommand>(requestDto);
+				var userId = await _mediator.Send(command);
+				return Ok(new CreateUserResponseDto { Id = userId, UserName = requestDto.UserName, Email = requestDto.Email });
+			}
+			catch (InvalidOperationException ex)
+			{
+				return NotFound(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred: " + ex.Message);
+			}
 		}
 
-		[Authorize]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetUserByIdAsync(int id)
 		{
@@ -43,21 +58,37 @@ namespace PasswordManager.Api.Controllers
 			return Ok(responseDto);
 		}
 
-		[Authorize]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserRequestDto requestDto)
 		{
-			if( id != requestDto.Id)
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			if (id != requestDto.Id)
 			{
 				return BadRequest();
 			}
 
-			var command = _mapper.Map<UpdateUserCommand>(requestDto);
-			var result = await _mediator.Send(command);
-			return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();    
+			if (string.IsNullOrWhiteSpace(requestDto.Password))
+			{
+				requestDto.Password = null; 
+			}
+
+			try
+			{
+				var command = _mapper.Map<UpdateUserCommand>(requestDto);
+				var result = await _mediator.Send(command);
+
+				return result ? Ok(new UpdateUserResponseDto { Success = true }) : NotFound();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred: " + ex.Message);
+			}
 		}
-		
-		[Authorize]
+
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteUserAsync(int id)
 		{

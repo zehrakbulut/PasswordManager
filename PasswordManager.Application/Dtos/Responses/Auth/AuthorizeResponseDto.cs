@@ -9,5 +9,6 @@ namespace PasswordManager.Application.Dtos.Responses.Auth
 	public record AuthorizeResponseDto
 	{
 		public string AccessToken { get; set; }
+		public string RefreshToken { get; set; }
 	}
 }

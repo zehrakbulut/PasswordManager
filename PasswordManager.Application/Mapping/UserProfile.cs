@@ -14,10 +14,10 @@ namespace PasswordManager.Application.Mapping
 			CreateMap<CreateUserRequestDto, CreateUserCommand>()
 				.ForMember(dest => dest.HashedMasterPassword, opt => opt.MapFrom(src => PasswordHasher.HashPassword(src.Password)));
 
-			CreateMap<User, GetUserByIdResponseDto>();
-
 			CreateMap<UpdateUserRequestDto, UpdateUserCommand>()
-				.ForMember(dest => dest.HashedMasterPassword, opt => opt.MapFrom(src => src.Password != null ? PasswordHasher.HashPassword(src.Password) : null));
+			.ForMember(dest => dest.HashedMasterPassword, opt => opt.MapFrom(src => src.Password != null ? PasswordHasher.HashPassword(src.Password) : null));
+
+			CreateMap<User, GetUserByIdResponseDto>();
 
 			CreateMap<IEnumerable<User>, GetAllUsersResponseDto>()
 				.ForMember(dest => dest.Users, opt => opt.MapFrom(src => src));

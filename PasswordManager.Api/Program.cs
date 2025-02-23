@@ -1,11 +1,15 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Application;
 using PasswordManager.Application.Features.AuthFeature.QueryHandlers;
+using PasswordManager.Application.Features.AuthFeature.Validators;
 using PasswordManager.Application.Features.PasswordFeature.Queries;
 using PasswordManager.Application.Features.PasswordFeature.QueriesHandlers;
+using PasswordManager.Application.Features.UserFeature.Validators;
 using PasswordManager.Application.Helpers;
 using PasswordManager.Application.Interfaces;
 using PasswordManager.Application.Mapping;
@@ -16,6 +20,17 @@ using PasswordManager.Infrastructure.Repositories;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddControllers()
+	.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RegisterRequestValidator>());
+builder.Services.AddControllers()
+	.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>());
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+
+
 
 // JWT konfigürasyonu
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -37,6 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	});
 
 builder.Services.AddAuthorization();
+
 
 
 builder.Services.AddScoped<IJwtService, JwtService>();

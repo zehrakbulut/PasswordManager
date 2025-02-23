@@ -11,9 +11,9 @@ namespace PasswordManager.Application.Helpers
 		}
 
 		// Girilen şifreyi hash ile karşılaştırma
-		public static bool VerifyPassword(string password, string hashedPassword)
+		public static bool VerifyPassword(string inputPassword, string hashedPassword)
 		{
-			return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+			return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
 		}
 	}
 }

@@ -20,6 +20,11 @@ namespace PasswordManager.Api.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var user = await _mediator.Send(new RegisterCommand
 			{
 				Email = request.Email,
