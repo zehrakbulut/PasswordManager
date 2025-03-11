@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -53,11 +52,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-
-
+builder.Services.AddScoped(typeof(IRepositoryBase<>),typeof(Repository<>));
 builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<IRepositoryBase<User>, Repository<User>>();
-builder.Services.AddScoped<IRepositoryBase<Password>, Repository<Password>>();
 builder.Services.AddScoped<IRequestHandler<GetPasswordByIdQuery, Password>, GetPasswordByIdQueryHandler>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginUserQueryHandler).Assembly));
