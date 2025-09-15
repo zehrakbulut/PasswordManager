@@ -61,7 +61,7 @@ PasswordManager/
 
 ### 1. Repository'yi Klonlayın
 ```bash
-gtit clone https://github.com/zehrakbulut/PasswordManager.git
+git clone https://github.com/zehrakbulut/PasswordManager.git
 cd PasswordManager
 ```
 
