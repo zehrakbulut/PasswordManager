@@ -84,8 +84,8 @@ CREATE DATABASE AppDb;
 `appsettings.json` dosyasındaki JWT yapılandırmasını güncelleyin:
 ```json
 {
-  "JwtSettings": {
-    "Secret": "BurayaGizliAnahtariniz-32KarakterOlmalidir!",
+ "JwtSettings": {
+    "Secret": "GizliBirAnahtarBurayaGelmeli123!",
     "Issuer": "PasswordManagerAPI",
     "Audience": "PasswordManagerClient",
     "ExpiryMinutes": 60
