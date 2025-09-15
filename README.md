@@ -75,7 +75,7 @@ CREATE DATABASE AppDb;
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=AppDb;Username=kullanici_adi;Password=sifre"
+    "DefaultConnection": "Host=localhost;Port=5432;Database=AppDb;Username=postgres;Password=123456aA*"
   }
 }
 ```
