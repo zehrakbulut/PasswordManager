@@ -1,91 +1,91 @@
-# Password Manager API
+# PASSWORD MANAGER API (ŞİFRE YÖNETİCİSİ)
 
-A secure and robust password management system built with ASP.NET Core 8.0, implementing Clean Architecture principles and CQRS pattern. This API provides comprehensive user authentication and password storage capabilities with enterprise-level security features.
+ASP.NET Core 8.0 ile geliştirilmiş güvenli ve sağlam bir şifre yönetim sistemi. Clean Architecture prensipleri ve CQRS pattern uygulanarak tasarlanmıştır. Bu API, kurumsal seviyede güvenlik özellikleri ile kapsamlı kullanıcı kimlik doğrulama ve şifre saklama yetenekleri sunar.
 
-## 🚀 Features
+## 🚀 Özellikler
 
-### Core Features
-- **User Management**: Complete user registration, authentication, and profile management
-- **Password Storage**: Secure storage and management of passwords for different services
-- **JWT Authentication**: Token-based authentication system with configurable expiration
-- **Password Encryption**: Dual-layer security with BCrypt for master passwords and AES for stored passwords
-- **RESTful API**: Well-designed REST endpoints following industry standards
+### Temel Özellikler
+- **Kullanıcı Yönetimi**: Eksiksiz kullanıcı kaydı, kimlik doğrulama ve profil yönetimi
+- **Şifre Saklama**: Farklı servisler için güvenli şifre depolama ve yönetimi
+- **JWT Kimlik Doğrulama**: Yapılandırılabilir süre ile token tabanlı kimlik doğrulama sistemi
+- **Şifre Şifreleme**: Ana şifreler için BCrypt ve saklanan şifreler için AES ile çift katmanlı güvenlik
+- **RESTful API**: Endüstri standartlarına uygun tasarlanmış REST uç noktaları
 
-### Technical Features
-- **Clean Architecture**: Separation of concerns with Domain, Application, Infrastructure, and API layers
-- **CQRS Pattern**: Command Query Responsibility Segregation using MediatR
-- **FluentValidation**: Comprehensive input validation with custom error messages
-- **AutoMapper**: Object-to-object mapping for DTOs and domain models
-- **Entity Framework Core**: Code-first database approach with PostgreSQL
-- **Swagger Documentation**: Interactive API documentation and testing interface
+### Teknik Özellikler
+- **Clean Architecture**: Domain, Application, Infrastructure ve API katmanları ile endişelerin ayrılması
+- **CQRS Pattern**: MediatR kullanılarak Command Query Responsibility Segregation
+- **FluentValidation**: Özel hata mesajları ile kapsamlı girdi doğrulama
+- **AutoMapper**: DTO'lar ve domain modelleri için nesne-nesne eşleştirme
+- **Entity Framework Core**: PostgreSQL ile code-first veritabanı yaklaşımı
+- **Swagger Dokümantasyonu**: Etkileşimli API dokümantasyonu ve test arayüzü
 
-## 🏗️ Architecture
+## 🏗️ Mimari
 
-The project follows Clean Architecture principles with the following structure:
+Proje, Clean Architecture prensiplerini takip ederek aşağıdaki yapıya sahiptir:
 
 ```
 PasswordManager/
-├── PasswordManager.Api/              # API Layer (Controllers, Middleware)
-├── PasswordManager.Application/      # Application Layer (Business Logic, DTOs, Features)
-├── PasswordManager.Domain/          # Domain Layer (Entities, Interfaces)
-├── PasswordManager.Infrastructure/  # Infrastructure Layer (Data Access, External Services)
+├── PasswordManager.Api/              # API Katmanı (Controllers, Middleware)
+├── PasswordManager.Application/      # Uygulama Katmanı (İş Mantığı, DTOs, Features)
+├── PasswordManager.Domain/          # Domain Katmanı (Entities, Interfaces)
+├── PasswordManager.Infrastructure/  # Altyapı Katmanı (Veri Erişimi, Dış Servisler)
 └── README.md
 ```
 
-### Layer Responsibilities
+### Katman Sorumlulukları
 
-- **Domain**: Core business entities and interfaces
-- **Application**: Business logic, CQRS handlers, DTOs, validation, and mapping
-- **Infrastructure**: Data access, external services, and cross-cutting concerns
-- **API**: Controllers, middleware, and configuration
+- **Domain**: Temel iş varlıkları ve arayüzler
+- **Application**: İş mantığı, CQRS işleyicileri, DTO'lar, doğrulama ve eşleme
+- **Infrastructure**: Veri erişimi, dış servisler ve cross-cutting concerns
+- **API**: Controller'lar, middleware ve yapılandırma
 
-## 🛠️ Technology Stack
+## 🛠️ Teknoloji Yığını
 
 - **Framework**: .NET 8.0
-- **Database**: PostgreSQL
+- **Veritabanı**: PostgreSQL
 - **ORM**: Entity Framework Core 8.0
-- **Authentication**: JWT Bearer Token
-- **Password Hashing**: BCrypt.Net
-- **Encryption**: AES (Advanced Encryption Standard)
-- **Validation**: FluentValidation
-- **Documentation**: Swagger/OpenAPI
-- **Architecture Patterns**: Clean Architecture, CQRS, Repository Pattern
+- **Kimlik Doğrulama**: JWT Bearer Token
+- **Şifre Hash'leme**: BCrypt.Net
+- **Şifreleme**: AES (Advanced Encryption Standard)
+- **Doğrulama**: FluentValidation
+- **Dokümantasyon**: Swagger/OpenAPI
+- **Mimari Desenler**: Clean Architecture, CQRS, Repository Pattern
 
-## 📋 Prerequisites
+## 📋 Ön Gereksinimler
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [PostgreSQL 12+](https://www.postgresql.org/download/)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) veya [Visual Studio Code](https://code.visualstudio.com/)
 
-## ⚙️ Installation
+## ⚙️ Kurulum
 
-### 1. Clone the Repository
+### 1. Repository'yi Klonlayın
 ```bash
-git clone https://github.com/your-username/PasswordManager.git
+git clone https://github.com/kullanici-adi/PasswordManager.git
 cd PasswordManager
 ```
 
-### 2. Database Setup
-1. Install PostgreSQL and create a new database:
+### 2. Veritabanı Kurulumu
+1. PostgreSQL'i kurun ve yeni bir veritabanı oluşturun:
 ```sql
 CREATE DATABASE AppDb;
 ```
 
-2. Update the connection string in `PasswordManager.Api/appsettings.json`:
+2. `PasswordManager.Api/appsettings.json` dosyasındaki bağlantı dizesini güncelleyin:
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=AppDb;Username=your_username;Password=your_password"
+    "DefaultConnection": "Host=localhost;Port=5432;Database=AppDb;Username=kullanici_adi;Password=sifre"
   }
 }
 ```
 
-### 3. Configure JWT Settings
-Update the JWT configuration in `appsettings.json`:
+### 3. JWT Ayarlarını Yapılandırın
+`appsettings.json` dosyasındaki JWT yapılandırmasını güncelleyin:
 ```json
 {
   "JwtSettings": {
-    "Secret": "YourSecretKeyHere-MustBe32CharactersLong!",
+    "Secret": "BurayaGizliAnahtariniz-32KarakterOlmalidir!",
     "Issuer": "PasswordManagerAPI",
     "Audience": "PasswordManagerClient",
     "ExpiryMinutes": 60
@@ -93,31 +93,31 @@ Update the JWT configuration in `appsettings.json`:
 }
 ```
 
-### 4. Install Dependencies
+### 4. Bağımlılıkları Yükleyin
 ```bash
 dotnet restore
 ```
 
-### 5. Run Database Migrations
+### 5. Veritabanı Migration'larını Çalıştırın
 ```bash
 dotnet ef database update --project PasswordManager.Infrastructure --startup-project PasswordManager.Api
 ```
 
-### 6. Run the Application
+### 6. Uygulamayı Çalıştırın
 ```bash
 dotnet run --project PasswordManager.Api
 ```
 
-The API will be available at:
+API şu adreslerde kullanılabilir olacak:
 - HTTP: `http://localhost:5187`
 - HTTPS: `https://localhost:7237`
 - Swagger UI: `https://localhost:7237/swagger`
 
-## 📚 API Documentation
+## 📚 API Dokümantasyonu
 
-### Authentication Endpoints
+### Kimlik Doğrulama Uç Noktaları
 
-#### Register User
+#### Kullanıcı Kaydı
 ```http
 POST /api/auth/register
 Content-Type: application/json
@@ -125,30 +125,30 @@ Content-Type: application/json
 {
   "userName": "john_doe",
   "email": "john@example.com",
-  "password": "SecurePass123!"
+  "password": "GuvenliBirSifre123!"
 }
 ```
 
-#### Login User
+#### Kullanıcı Girişi
 ```http
 POST /api/auth/login
 Content-Type: application/json
 
 {
   "email": "john@example.com",
-  "password": "SecurePass123!"
+  "password": "GuvenliBirSifre123!"
 }
 ```
 
-### User Management Endpoints
+### Kullanıcı Yönetimi Uç Noktaları
 
-#### Get User by ID
+#### ID'ye Göre Kullanıcı Getir
 ```http
 GET /api/users/{id}
 Authorization: Bearer {jwt_token}
 ```
 
-#### Update User
+#### Kullanıcı Güncelle
 ```http
 PUT /api/users/{id}
 Authorization: Bearer {jwt_token}
@@ -156,21 +156,21 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "userName": "updated_username",
-  "email": "updated@example.com",
-  "password": "NewPassword123!"
+  "userName": "guncellenen_kullanici",
+  "email": "guncellenen@example.com",
+  "password": "YeniSifre123!"
 }
 ```
 
-#### Get All Users
+#### Tüm Kullanıcıları Listele
 ```http
 GET /api/users/UserList
 Authorization: Bearer {jwt_token}
 ```
 
-### Password Management Endpoints
+### Şifre Yönetimi Uç Noktaları
 
-#### Create Password Entry
+#### Şifre Kaydı Oluştur
 ```http
 POST /api/passwords
 Authorization: Bearer {jwt_token}
@@ -179,18 +179,18 @@ Content-Type: application/json
 {
   "userId": 1,
   "name": "GitHub",
-  "username": "myusername",
-  "password": "MySecurePassword123!"
+  "username": "kullanici_adim",
+  "password": "BenimGuvenliBirSifrem123!"
 }
 ```
 
-#### Get Password by ID
+#### ID'ye Göre Şifre Getir
 ```http
 GET /api/passwords/{id}
 Authorization: Bearer {jwt_token}
 ```
 
-#### Update Password Entry
+#### Şifre Kaydını Güncelle
 ```http
 PUT /api/passwords/{id}
 Authorization: Bearer {jwt_token}
@@ -200,61 +200,61 @@ Content-Type: application/json
   "id": 1,
   "userId": 1,
   "name": "GitHub",
-  "username": "myusername",
-  "password": "UpdatedPassword123!"
+  "username": "kullanici_adim",
+  "password": "GuncellenmisSifre123!"
 }
 ```
 
-#### Get All Passwords
+#### Tüm Şifreleri Listele
 ```http
 GET /api/passwords/PasswordList
 Authorization: Bearer {jwt_token}
 ```
 
-## 🔒 Security Features
+## 🔒 Güvenlik Özellikleri
 
-### Password Security
-- **Master Passwords**: Hashed using BCrypt with salt
-- **Stored Passwords**: Encrypted using AES-256 encryption
-- **Secure Key Management**: Configurable encryption keys
+### Şifre Güvenliği
+- **Ana Şifreler**: Salt ile BCrypt kullanılarak hash'lenir
+- **Saklanan Şifreler**: AES-256 şifreleme kullanılarak şifrelenir
+- **Güvenli Anahtar Yönetimi**: Yapılandırılabilir şifreleme anahtarları
 
-### Authentication & Authorization
-- **JWT Tokens**: Stateless authentication with configurable expiration
-- **Bearer Token Authentication**: Standard HTTP authorization headers
-- **Role-based Access**: Secure access control to resources
+### Kimlik Doğrulama ve Yetkilendirme
+- **JWT Token'ları**: Yapılandırılabilir süre ile durumsuz kimlik doğrulama
+- **Bearer Token Kimlik Doğrulama**: Standart HTTP yetkilendirme başlıkları
+- **Rol Tabanlı Erişim**: Kaynaklara güvenli erişim kontrolü
 
-### Input Validation
-- **Comprehensive Validation**: All inputs validated using FluentValidation
-- **Password Requirements**: Enforced strong password policies
-- **Data Sanitization**: Protection against injection attacks
+### Girdi Doğrulama
+- **Kapsamlı Doğrulama**: Tüm girdiler FluentValidation kullanılarak doğrulanır
+- **Şifre Gereksinimleri**: Güçlü şifre politikaları zorunlu tutulur
+- **Veri Temizleme**: Injection saldırılarına karşı koruma
 
-## 🧪 Testing
+## 🧪 Test
 
-### Run Unit Tests
+### Unit Testleri Çalıştır
 ```bash
 dotnet test
 ```
 
-### API Testing
-Use the integrated Swagger UI for interactive API testing:
-1. Navigate to `https://localhost:7237/swagger`
-2. Use the "Authorize" button to set your JWT token
-3. Test endpoints directly from the browser
+### API Testi
+Etkileşimli API testi için entegre Swagger UI kullanın:
+1. `https://localhost:7237/swagger` adresine gidin
+2. JWT token'ınızı ayarlamak için "Authorize" butonunu kullanın
+3. Uç noktaları doğrudan tarayıcıdan test edin
 
-## 🔧 Configuration
+## 🔧 Yapılandırma
 
-### Environment Variables
-Key configuration options in `appsettings.json`:
+### Ortam Değişkenleri
+`appsettings.json` dosyasındaki temel yapılandırma seçenekleri:
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Your PostgreSQL connection string"
+    "DefaultConnection": "PostgreSQL bağlantı dizesi"
   },
   "JwtSettings": {
-    "Secret": "Your JWT secret key (32+ characters)",
-    "Issuer": "Your application name",
-    "Audience": "Your client name",
+    "Secret": "JWT gizli anahtarınız (32+ karakter)",
+    "Issuer": "Uygulama adınız",
+    "Audience": "İstemci adınız",
     "ExpiryMinutes": 60
   },
   "Logging": {
@@ -266,16 +266,16 @@ Key configuration options in `appsettings.json`:
 }
 ```
 
-## 🚀 Deployment
+## 🚀 Dağıtım
 
-### Production Deployment
-1. **Environment Configuration**: Update connection strings and JWT settings
-2. **Database Migration**: Run migrations in production environment
-3. **Security**: Use environment variables for sensitive configuration
-4. **HTTPS**: Ensure SSL/TLS certificates are properly configured
+### Üretim Dağıtımı
+1. **Ortam Yapılandırması**: Bağlantı dizelerini ve JWT ayarlarını güncelleyin
+2. **Veritabanı Migration**: Üretim ortamında migration'ları çalıştırın
+3. **Güvenlik**: Hassas yapılandırma için ortam değişkenlerini kullanın
+4. **HTTPS**: SSL/TLS sertifikalarının düzgün yapılandırıldığından emin olun
 
-### Docker Support (Optional)
-Create a `Dockerfile` for containerization:
+### Docker Desteği (Opsiyonel)
+Konteynerleştirme için bir `Dockerfile` oluşturun:
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
@@ -297,40 +297,30 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PasswordManager.Api.dll"]
 ```
 
-## 🤝 Contributing
+## 🤝 Katkıda Bulunma
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Repository'yi fork edin
+2. Özellik dalı oluşturun (`git checkout -b feature/harika-ozellik`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Harika bir özellik ekle'`)
+4. Dalı push edin (`git push origin feature/harika-ozellik`)
+5. Pull Request açın
 
-### Development Guidelines
-- Follow Clean Architecture principles
-- Implement comprehensive unit tests
-- Use FluentValidation for input validation
-- Follow RESTful API conventions
-- Update documentation for new features
+### Geliştirme Kılavuzu
+- Clean Architecture prensiplerini takip edin
+- Kapsamlı unit testler uygulayın
+- Girdi doğrulama için FluentValidation kullanın
+- RESTful API konvansiyonlarını takip edin
+- Yeni özellikler için dokümantasyonu güncelleyin
 
-## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Support
+## 🔄 Sürüm Geçmişi
 
-For support, questions, or contributions:
-- Create an issue on GitHub
-- Contact the development team
-- Check the documentation in the `/docs` folder
-
-## 🔄 Version History
-
-- **v1.0.0** - Initial release with core functionality
-  - User authentication and management
-  - Password storage and encryption
-  - JWT-based security
-  - RESTful API endpoints
+- **v1.0.0** - Temel işlevsellik ile ilk sürüm
+  - Kullanıcı kimlik doğrulama ve yönetimi
+  - Şifre saklama ve şifreleme
+  - JWT tabanlı güvenlik
+  - RESTful API uç noktaları
 
 ---
-
-**Note**: This is a demonstration project. For production use, ensure proper security audits, monitoring, and compliance with relevant data protection regulations.
+ZEHRA AKBULUT ♡♡♡
